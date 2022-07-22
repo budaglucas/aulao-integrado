@@ -1,0 +1,20 @@
+CASO DE USO: Parte 1 universities.
+Ator Principal: Integrado
+Pré-condições: Endpoints da Api. Países que devem ser utilizados como parâmetro para a consulta.
+Pós-condições: Universidades dos países determinados salvas no banco.
+
+Principal:
+1 - Desenvolver conexão com o banco de dados.
+2 - Desenvolver consulta com a api. 
+3 - Fazer a busca das universidades de cada país listado, printando qual o país que esta sendo consultado no momento. ---
+4 - Salvar no banco separadamente cada universidade, printando uma mensagem de sucesso.
+
+Fluxo Alternativo, falha na conexão com o banco de dados, linha 1. ---
+1 - Printar uma mensagem de erro.
+2 - Tentar reconectar.
+
+Fluxo Alternativo, falha na busca das universidades, linha 3. ---
+1 - Printar mensagem de erro especificando qual foi o erro.
+2 - Caso o erro ocorreu em uma universidade específica, printar o erro, continue.
+3 - Caso o erro ocorreu em um país específico, printar uma mensagem de erro informando que não foi possível fazer a consulta neste país e consultar o próximo país.
+4 - Caso o erro ocorreu na API, printar mensagem de erro e voltar para a linha 3 do fluxo principal.
