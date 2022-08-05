@@ -5,4 +5,5 @@ const University = mongoose.model('Universities', {
   university: String,
 })
 
+
 module.exports = University

@@ -1,4 +1,5 @@
 const express = require('express')
+
 const app = express()
 
 const db = require('./server')
@@ -7,11 +8,11 @@ const mongoose = require('mongoose')
 
 const axios = require('axios')
 
-const routes = express.Router()
-
 const university_model = require('./Models/University')
 
 const Universities = require('./Universities')
+
+const UniParser = require('./UniParser')
 
 
 mongoose.connect(db.uri)
@@ -21,31 +22,27 @@ mongoose.connect(db.uri)
   })
   .catch((err) => console.log(err))
 
+const App = {}
 
-app.post('/person', async (req, res) => {
-  try {
-    for (const country of Universities) {
+App.getUniversity = async () => {
+  for (const country of Universities.Universities) {
+    try {
+      console.log(`Buscando universidades do país ${country}`)
       const universities_api = await axios.get(
         `http://universities.hipolabs.com/search?country=${country}`
       );
 
-      for (const university of universities_api) {
-        console.log('university', university)
-        process.exit()
-        const uni_name = university.name
-        const university = {
-          country,
-          uni_name,
-        };
-  
-        await university_model.create(university);
-  
-        console.log('Universidade salva no banco');
-      }
-    }
-  } catch (error) {
-    res.status(500).json({ message: `Erro ao buscar as universidades do país ${country}` })
-  }
-})
+      for (const university of universities_api.data) {
+        const parsed_university = await UniParser.parser(university)
+        await university_model.create(parsed_university)
 
-module.exports = routes;
+        console.log("Universidade salva no banco")
+      }
+    } catch (error) {
+      console.log(error);
+      continue;
+    }
+  }
+}
+
+App.getUniversity()

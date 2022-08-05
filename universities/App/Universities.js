@@ -1,6 +1,6 @@
 const Universities = [
   "argentina",
-  "brasil",
+  "brazil",
   "chile",
   "colombia",
   "paraguai",
